@@ -32,9 +32,39 @@ class Song_Vmb extends _base_Vmb {
 		$viewModel->Id = $filename;
 		$viewModel->IsUpdateAllowed = $this->SiteUser->MayEdit && $this->SiteUser->IsAuthenticated;
 
+		$viewModel->EditorSettingsJson = $this->getSettings();
 		return $viewModel;
 	}
 
+	/**
+	 * Does not validate values, but does ensure only valid JSON was provided.
+	 * @method getSettings
+	 * @return string
+	 */
+	private function getSettings() {
+		$settings = FileHelper::getFile(Config::$AppDirectory . 'settings.json');
+		if ($settings === null){
+			return '{}';
+		}
+
+		if (!function_exists('json_decode')){
+			return $settings;
+		}
+
+		$json = preg_replace("#(/\*([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*\*+/)|([\s\t]//.*)|(^//.*)#", '', $settings);
+		if (json_decode($json)){
+			return $settings;
+		}
+
+		return '{"invalidJson": "There is a problem with your settings: invalid JSON. Please check for typos."}';
+	}
+
+	/**
+	 * Uses either Title(s) from Song or the file name
+	 * @param string $song
+	 * @param string $filename
+	 * @return string
+	 */
 	private function MakePageTitle($song, $filename){
 		$title = '';
 
@@ -43,8 +73,7 @@ class Song_Vmb extends _base_Vmb {
 
 			if (strlen($song->artist) > 0){
 				$title .= ' - '	. $song->artist;
-			}
-			else if (strlen($song->subtitle) > 0){
+			} else if (strlen($song->subtitle) > 0) {
 				$title .= ' - ' . $song->subtitle;
 			}
 

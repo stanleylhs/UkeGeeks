@@ -29,6 +29,9 @@
 	padding:0;
 	width:auto;
 }
+.ugs-song-wrap pre{
+	background-color: transparent;
+}
 /*
 ,
 .ugs-song-wrap canvas,
@@ -71,6 +74,11 @@
 	float:left;
 	margin-right:5px;
 }
+.ugsIgnoredChords {
+	clear: left;
+	font-size: 0.9em;
+	padding: 0 0 0.5em;
+}
 /*
   ------------------------------ */
 .ugs-source-wrap h5,
@@ -98,7 +106,7 @@
 	white-space:pre;
 }
 .ugs-source-wrap pre + h6 {
-	margin-top: 3.5em;
+	margin-top: 2.5em;
 }
 .ie .ugs-source-wrap pre {
 	font-family:Verdana, Arial, Helvetica, sans-serif;
@@ -129,6 +137,9 @@
 .ugs-song-wrap .ugsTabs + .ugsPlain {
 	margin:0 0 1em;
 	padding:0;
+}
+.ugsTabs canvas{
+	max-width: 100%;
 }
 /* PLACE CHORDS ABOVE TEXT
   ------------------------------ */
@@ -215,6 +226,7 @@
 	margin-left: 0;
 }
 /* SHOW CHORD DIAGRAMS INLINE
+  See also JS class: ukeGeeks.settings.inlineFretBox
   ------------------------------ */
 .ugsInlineDiagrams .ugsChords {
 	line-height:95px;
@@ -240,7 +252,7 @@
 	line-height:1;
 	text-align:center;
 	top:-72px;
-	width:30px;
+	width: 40px;
 }
 .ugsChords code canvas {
 	left:0;

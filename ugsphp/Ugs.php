@@ -43,7 +43,7 @@ class Ugs{
 	 */
 	private function RenderView( $model, $action ) {
 		header('X-Powered-By: ' . Config::PoweredBy);
-		include_once Config::$ViewsPath . $this->GetViewName( $action );
+		include_once Config::$AppDirectory . 'views/' . $this->GetViewName( $action );
 	}
 
 
@@ -54,6 +54,9 @@ class Ugs{
 	 */
 	private function RenderJson( $model ) {
 		header( 'Content-Type: application/json' );
+		if ( isset( $model->HasErrors ) && $model->HasErrors ) {
+			header( 'HTTP/1.1 500' );
+		}
 		unset($model->IsJson);
 		echo json_encode( $model );
 	}
@@ -186,26 +189,28 @@ class Ugs{
 	 * @return  string
 	 */
 	public static function MakeUri($action, $param = ''){
+		$directory = defined('Config::Subdirectory') ? Config::Subdirectory : '/';
 		$actionName = Actions::ToName($action);
 		$param = trim($param);
 
 		if (!Config::UseModRewrite){
 			$actionParams = strlen($param) > 0 ? '&song=' . $param : '';
-			return '/music.php?action=' . $actionName . $actionParams;
+			return $directory . 'music.php?action=' . $actionName . $actionParams;
 		}
 
 		if ($action == Actions::Song ) {
 			$actionName = 'songbook';
 		}
-		return '/' . strtolower($actionName) . '/' . $param;
+		return $directory . strtolower($actionName) . '/' . $param;
 	}
 
 	/**
 	 * The rather quirky way to interface with jQuery.ajax with serialize,
 	 * returns a PHP Object version of the posted JSON.
+	 *
 	 * @return Object
 	 */
-	public function GetJsonObject(){
+	public static function GetJsonObject(){
 		$input = @file_get_contents('php://input');
 		$response = json_decode($input);
 		return $response;
@@ -229,6 +234,5 @@ class Ugs{
 		}
 		return Config::UseDetailedLists ? 'song-list-detailed.php' : 'song-list.php';
 	}
-
 
 }

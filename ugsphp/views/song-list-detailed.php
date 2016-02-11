@@ -41,7 +41,7 @@ function MakeRowHtml($song){
 	<meta charset="utf-8" />
 	<title><?php echo($model->PageTitle); ?></title>
 	<meta name="generator" content="<?php echo($model->PoweredBy) ?>" />
-	<link rel="stylesheet" href="<?php echo($model->StaticsPrefix); ?>css/editor/ugsEditorPlus.css" />
+	<link rel="stylesheet" href="<?php echo($model->StaticsPrefix); ?>css/ugsEditorPlus.min.css" title="ugsEditorCss" />
 	<link rel="stylesheet" href="<?php echo($model->StaticsPrefix); ?>css/ugsphp.css" />
 	<link rel="stylesheet" href="<?php echo($model->StaticsPrefix); ?>css/ugsEditorPlus.typeahead.css" />
 </head>
@@ -73,7 +73,7 @@ function MakeRowHtml($song){
 	</ol>
 	</section>
 	<script type="text/javascript" src="<?php echo($model->StaticsPrefix); ?>js/jquery-1.9.1.min.js"></script>
-	<script type="text/javascript" src="<?php echo($model->StaticsPrefix); ?>js/ugsEditorPlus.merged.js"></script>
+	<script type="text/javascript" src="<?php echo($model->StaticsPrefix); ?>js/ugsEditorPlus.min.js"></script>
 	<?php if ($model->IsNewAllowed) {
 		?>
 		<section class="overlay" style="top:100px; right:40%; display:none;" id="newSongForm">
@@ -81,7 +81,7 @@ function MakeRowHtml($song){
 				<h3>Add Song</h3>
 			</hgroup>
 			<div><a title="close this" href="#close" id="hideNewSongBtn" class="closeBtn">Close</a>
-				<p id="loadingSpinner"><img src="/img/ugs/busy.gif" /> Saving&hellip;</p>
+				<p id="loadingSpinner"><img src="<?php echo($model->StaticsPrefix); ?>img/editor/busy.gif" /> Saving&hellip;</p>
 				<p class="errorMessage" style="display:none;"></p>
 				<label for="songTitle">Title</label>
 				<input type="text" name="songTitle" id="songTitle" value="" />
